@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BA/PO 56 ngày</title>
+<meta name="description" content="Lộ trình BA/PO thực chiến 56 ngày">
+<meta name="theme-color" content="#1d4e89">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BA/PO 56">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+:root {
+  --bg: #f6f8fb; --surface: #ffffff; --text: #1b2430; --muted: #5d6b7c;
+  --line: #e2e8f0; --brand: #1d4e89; --brand-soft: #e6eef8; --accent: #e88c30;
+  --ok: #2e8b57; --code-bg: #f1f4f8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141b; --surface: #171e27; --text: #e4e9f0; --muted: #98a6b8;
+    --line: #2a3441; --brand: #7fb0ea; --brand-soft: #1d2a3a; --accent: #f0a65c;
+    --ok: #5cc28a; --code-bg: #1e2732;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #171e27; --text: #e4e9f0; --muted: #98a6b8;
+  --line: #2a3441; --brand: #7fb0ea; --brand-soft: #1d2a3a; --accent: #f0a65c;
+  --ok: #5cc28a; --code-bg: #1e2732;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+header.top {
+  position: sticky; top: 0; z-index: 10; background: var(--surface);
+  border-bottom: 1px solid var(--line); padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+header.top h1 { font-size: 17px; margin: 0; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.icon-btn {
+  border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  border-radius: 10px; min-width: 40px; height: 40px; font-size: 18px; cursor: pointer;
+}
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.hero h2 { margin: 0 0 4px; font-size: 20px; }
+.muted { color: var(--muted); font-size: 14px; }
+.bar { height: 10px; background: var(--brand-soft); border-radius: 99px; overflow: hidden; margin: 12px 0 6px; }
+.bar > i { display: block; height: 100%; background: var(--brand); width: 0; transition: width .3s; }
+.btn {
+  display: inline-block; border: 0; border-radius: 12px; padding: 12px 16px; font-size: 16px; font-weight: 600;
+  background: var(--brand); color: #fff; cursor: pointer; text-decoration: none; width: 100%; text-align: center;
+}
+:root[data-theme="dark"] .btn { color: #0f141b; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color: #0f141b; } }
+.btn.secondary { background: var(--brand-soft); color: var(--brand); }
+.week h3 { margin: 0 0 8px; font-size: 16px; }
+.day-list { list-style: none; margin: 0; padding: 0; }
+.day-list a {
+  display: flex; gap: 10px; align-items: center; padding: 10px 4px; color: var(--text);
+  text-decoration: none; border-top: 1px solid var(--line);
+}
+.day-list li:first-child a { border-top: 0; }
+.num {
+  flex: 0 0 34px; height: 34px; border-radius: 10px; background: var(--brand-soft); color: var(--brand);
+  display: grid; place-items: center; font-weight: 700; font-size: 14px;
+}
+.done .num { background: var(--ok); color: #fff; }
+.day-list .t { flex: 1; font-size: 15px; line-height: 1.35; }
+nav.tabs {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; background: var(--surface);
+  border-top: 1px solid var(--line); display: flex; padding-bottom: env(safe-area-inset-bottom);
+}
+nav.tabs a { flex: 1; text-align: center; padding: 8px 0 10px; color: var(--muted); text-decoration: none; font-size: 12px; }
+nav.tabs a b { display: block; font-size: 20px; line-height: 1.3; font-weight: 400; }
+nav.tabs a.on { color: var(--brand); }
+/* nội dung markdown */
+.md { overflow-wrap: anywhere; }
+.md h1 { font-size: 22px; line-height: 1.3; }
+.md h2 { font-size: 20px; line-height: 1.35; margin-top: 0; }
+.md h3 { font-size: 17px; margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--brand); }
+.md h4 { font-size: 16px; margin-top: 20px; }
+.md blockquote { margin: 12px 0; padding: 8px 12px; border-left: 4px solid var(--accent); background: var(--brand-soft); border-radius: 0 8px 8px 0; }
+.md blockquote p { margin: 4px 0; }
+.md code { background: var(--code-bg); padding: 1px 5px; border-radius: 5px; font-size: 14px; }
+.md pre { background: var(--code-bg); padding: 12px; border-radius: 10px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+.md pre code { background: none; padding: 0; }
+.table-wrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; }
+.md table { border-collapse: collapse; font-size: 14px; min-width: 100%; }
+.md th, .md td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; min-width: 110px; }
+.md th { background: var(--brand-soft); }
+.md details { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 12px 0; background: var(--surface); }
+.md details > summary { cursor: pointer; font-weight: 600; color: var(--accent); padding: 4px 0; }
+.md .mermaid { background: #fff; border-radius: 10px; padding: 8px; overflow-x: auto; text-align: center; }
+.md li { margin: 3px 0; }
+.md input[type=checkbox] { transform: scale(1.2); margin-right: 6px; }
+.pager { display: flex; gap: 10px; margin-top: 16px; }
+.pager .btn { flex: 1; }
+.done-toggle { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.done-toggle input { width: 22px; height: 22px; }
+.err { color: #c0392b; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips a { padding: 8px 12px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); text-decoration: none; font-size: 14px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="icon-btn" id="backBtn" aria-label="Về trang chủ" hidden>‹</button>
+  <h1 id="title">BA/PO 56 ngày</h1>
+  <button class="icon-btn" id="sizeBtn" aria-label="Cỡ chữ">A</button>
+  <button class="icon-btn" id="themeBtn" aria-label="Đổi giao diện">◐</button>
+</header>
+<main id="app"><p class="muted">Đang tải…</p></main>
+<nav class="tabs">
+  <a href="#/" data-tab="home"><b>⌂</b>Lộ trình</a>
+  <a href="#/case" data-tab="case"><b>◎</b>Case</a>
+  <a href="#/templates" data-tab="templates"><b>▤</b>Template</a>
+  <a href="#/tracker" data-tab="tracker"><b>✓</b>Tiến độ</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+const WEEKS = [
+  { file: 'days/week-01.md', name: 'Tuần 1 · Foundation & Discovery' },
+  { file: 'days/week-02.md', name: 'Tuần 2 · Stakeholder & Process' },
+  { file: 'days/week-03.md', name: 'Tuần 3 · Requirement Engineering' },
+  { file: 'days/week-04.md', name: 'Tuần 4 · System Analysis' },
+  { file: 'days/week-05.md', name: 'Tuần 5 · API & Integration' },
+  { file: 'days/week-06.md', name: 'Tuần 6 · UX/UI & Product Owner' },
+  { file: 'days/week-07.md', name: 'Tuần 7 · Delivery & Senior' },
+  { file: 'capstone/capstone.md', name: 'Tuần 8 · Capstone' },
+];
+const PAGES = {
+  case: [
+    { file: '00-case-study/01-physical-gift.md', name: 'Case xuyên suốt: Physical Gift' },
+    { file: '00-case-study/02-promotion-code.md', name: 'Case thật: Promotion Code' },
+    { file: '00-case-study/03-slide-to-use.md', name: 'Case thật: Slide to Use' },
+  ],
+  templates: [{ file: 'templates/templates.md', name: '30 Template' }],
+  tracker: [{ file: 'tracker/progress-tracker.md', name: 'Rubric & tiến độ' }],
+};
+const TOTAL_DAYS = 56;
+const DONE_KEY = 'bapo.done';
+const PREF_KEY = 'bapo.prefs';
+
+const app = document.getElementById('app');
+const titleEl = document.getElementById('title');
+const backBtn = document.getElementById('backBtn');
+const fileCache = new Map();
+let days = [];            // [{n, title, week, md}]
+
+function readJSON(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+}
+function writeJSON(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* bộ nhớ không khả dụng: bỏ qua */ }
+}
+const doneSet = () => new Set(readJSON(DONE_KEY, []));
+function setDone(n, isDone) {
+  const s = doneSet();
+  if (isDone) s.add(n); else s.delete(n);
+  writeJSON(DONE_KEY, [...s]);
+}
+
+function applyPrefs() {
+  const p = readJSON(PREF_KEY, {});
+  if (p.theme) document.documentElement.setAttribute('data-theme', p.theme);
+  else document.documentElement.removeAttribute('data-theme');
+  document.body.style.fontSize = (p.size || 16) + 'px';
+}
+document.getElementById('themeBtn').onclick = () => {
+  const p = readJSON(PREF_KEY, {});
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const current = p.theme || (dark ? 'dark' : 'light');
+  writeJSON(PREF_KEY, { ...p, theme: current === 'dark' ? 'light' : 'dark' });
+  applyPrefs(); route();
+};
+document.getElementById('sizeBtn').onclick = () => {
+  const p = readJSON(PREF_KEY, {});
+  const sizes = [15, 16, 18, 20];
+  const next = sizes[(sizes.indexOf(p.size || 16) + 1) % sizes.length];
+  writeJSON(PREF_KEY, { ...p, size: next });
+  applyPrefs();
+};
+backBtn.onclick = () => { location.hash = '#/'; };
+
+async function loadFile(path) {
+  if (fileCache.has(path)) return fileCache.get(path);
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Không tải được ${path} (HTTP ${res.status})`);
+  const text = await res.text();
+  fileCache.set(path, text);
+  return text;
+}
+
+// Tách file tuần thành từng Day theo heading "## Day N"
+function splitDays(md, weekIdx) {
+  const parts = md.split(/^(?=## Day \d+)/m);
+  return parts.filter(p => /^## Day \d+/.test(p)).map(p => {
+    const m = p.match(/^## Day (\d+)\s*[-–—:]?\s*(.*)$/m);
+    return { n: Number(m[1]), title: (m[2] || '').trim(), week: weekIdx, md: p };
+  });
+}
+
+async function loadAllDays() {
+  const texts = await Promise.all(WEEKS.map(w => loadFile(w.file)));
+  days = texts.flatMap((t, i) => splitDays(t, i)).sort((a, b) => a.n - b.n);
+}
+
+// Ẩn phần "Lời giải tham khảo" trong <details> để tự làm trước
+function foldSolutions(md) {
+  return md.replace(/^### (Lời giải tham khảo)\n([\s\S]*?)(?=^### |(?![\s\S]))/gm,
+    (_, h, body) => `### ${h}\n\n<details><summary>Mở lời giải (làm bài trước đã)</summary>\n\n${body}\n</details>\n\n`);
+}
+
+let mermaidReady = false;
+async function renderMarkdown(md, container) {
+  const html = marked.parse(md, { gfm: true });
+  container.innerHTML = html;
+  container.querySelectorAll('table').forEach(t => {
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    t.replaceWith(wrap); wrap.appendChild(t);
+  });
+  container.querySelectorAll('pre code.language-mermaid').forEach(code => {
+    const div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+  container.querySelectorAll('input[type=checkbox]').forEach(c => { c.disabled = false; });
+  const nodes = container.querySelectorAll('.mermaid');
+  if (!nodes.length || !window.mermaid) return;
+  if (!mermaidReady) { mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'strict' }); mermaidReady = true; }
+  try { await mermaid.run({ nodes }); }
+  catch (e) { console.warn('Mermaid lỗi:', e); }
+}
+
+function setChrome(title, tab, showBack) {
+  titleEl.textContent = title;
+  backBtn.hidden = !showBack;
+  document.querySelectorAll('nav.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
+  window.scrollTo(0, 0);
+}
+
+function nextDay() {
+  const s = doneSet();
+  return days.find(d => !s.has(d.n)) || days[days.length - 1];
+}
+
+function renderHome() {
+  setChrome('BA/PO 56 ngày', 'home', false);
+  const s = doneSet();
+  const doneCount = days.filter(d => s.has(d.n)).length;
+  const nd = nextDay();
+  const pct = Math.round(doneCount / TOTAL_DAYS * 100);
+  let html = `
+    <section class="card hero">
+      <h2>Lộ trình BA/PO thực chiến</h2>
+      <div class="muted">Đã xong ${doneCount}/${TOTAL_DAYS} ngày · ${pct}%</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <a class="btn" href="#/day/${nd.n}">${doneCount ? 'Học tiếp' : 'Bắt đầu'}: Day ${nd.n}</a>
+      <p class="muted" style="margin:10px 0 0">${escapeHtml(nd.title)}</p>
+    </section>`;
+  WEEKS.forEach((w, i) => {
+    const items = days.filter(d => d.week === i).map(d => `
+      <li class="${s.has(d.n) ? 'done' : ''}"><a href="#/day/${d.n}">
+        <span class="num">${s.has(d.n) ? '✓' : d.n}</span><span class="t">${escapeHtml(d.title)}</span>
+      </a></li>`).join('');
+    html += `<section class="card week"><h3>${w.name}</h3><ul class="day-list">${items}</ul></section>`;
+  });
+  html += `<section class="card"><h3 style="margin-top:0">Cách học mỗi ngày</h3>
+    <p class="muted">Learn 15–20' → Analyze 15' → Practice 30–40' (tự làm bài trước khi mở lời giải) → Review 10–15'.</p></section>`;
+  app.innerHTML = html;
+}
+
+async function renderDay(n) {
+  const d = days.find(x => x.n === n);
+  if (!d) { app.innerHTML = `<p class="err">Không có Day ${n}.</p>`; return; }
+  setChrome(`Day ${d.n}`, 'home', true);
+  const isDone = doneSet().has(n);
+  app.innerHTML = `
+    <article class="card md" id="content"></article>
+    <section class="card">
+      <label class="done-toggle"><input type="checkbox" id="doneChk" ${isDone ? 'checked' : ''}> Tôi đã hoàn thành Day ${n}</label>
+      <div class="pager">
+        ${n > 1 ? `<a class="btn secondary" href="#/day/${n - 1}">‹ Day ${n - 1}</a>` : ''}
+        ${n < TOTAL_DAYS ? `<a class="btn" href="#/day/${n + 1}">Day ${n + 1} ›</a>` : ''}
+      </div>
+    </section>`;
+  document.getElementById('doneChk').onchange = e => setDone(n, e.target.checked);
+  await renderMarkdown(foldSolutions(d.md), document.getElementById('content'));
+}
+
+async function renderPages(tab, idx) {
+  const list = PAGES[tab];
+  const page = list[idx] || list[0];
+  setChrome(page.name, tab, false);
+  const chips = list.length > 1
+    ? `<div class="card chips">${list.map((p, i) => `<a href="#/${tab}/${i}">${p.name}</a>`).join('')}</div>` : '';
+  app.innerHTML = `${chips}<article class="card md" id="content"><p class="muted">Đang tải…</p></article>`;
+  const md = await loadFile(page.file);
+  await renderMarkdown(md, document.getElementById('content'));
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+async function route() {
+  const h = location.hash.replace(/^#\/?/, '');
+  const [tab, arg] = h.split('/');
+  try {
+    if (tab === 'day') return await renderDay(Number(arg));
+    if (PAGES[tab]) return await renderPages(tab, Number(arg) || 0);
+    renderHome();
+  } catch (e) {
+    console.error(e);
+    app.innerHTML = `<div class="card"><p class="err">${escapeHtml(e.message)}</p><p class="muted">Kiểm tra kết nối mạng rồi tải lại trang.</p></div>`;
+  }
+}
+
+async function start() {
+  applyPrefs();
+  if (!window.marked) {
+    app.innerHTML = '<div class="card"><p class="err">Không tải được thư viện hiển thị. Cần mạng cho lần mở đầu tiên.</p></div>';
+    return;
+  }
+  try { await loadAllDays(); }
+  catch (e) {
+    app.innerHTML = `<div class="card"><p class="err">${escapeHtml(e.message)}</p></div>`;
+    return;
+  }
+  window.addEventListener('hashchange', route);
+  route();
+}
+start();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(e => console.warn('Không đăng ký được service worker:', e));
+}
+</script>
+</body>
+</html>
